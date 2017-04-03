@@ -23,7 +23,15 @@ cabal exec -- runghc tai64test.hs
 wget https://cr.yp.to/libtai/libtai-0.60.tar.gz && \
 tar xzf libtai-0.60.tar.gz && \
 cd libtai-0.60 && \
-make
+mv leapsecs.txt leapsecs.txt.old && \
+mv leapsecs.dat leapsecs.dat.old && \
+wget http://cr.yp.to/libtai/leapsecs.txt && \
+make && \
+./leapsecs < leapsecs.txt > leapsecs.dat && \
+sudo cp leapsecs.dat /etc/leapsecs.dat && \
+./check < check.in > /tmp/checkin.out && \
+diff ./check.out /tmp/checkin.out
+
 
 # ruby
 # https://github.com/craigw/tai64
